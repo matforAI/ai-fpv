@@ -30,3 +30,30 @@ RUN rosdep update
 WORKDIR /ros_ws
 
 RUN echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+# ===============================
+# AUTONOMOUS DRONE STACK
+# ===============================
+
+# MAVROS2
+RUN apt update && apt install -y \
+    ros-humble-mavros \
+    ros-humble-mavros-extras \
+    geographiclib-tools \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN geographiclib-get-geoids egm96-5
+
+# Nav2
+RUN apt update && apt install -y \
+    ros-humble-navigation2 \
+    ros-humble-nav2-bringup \
+    && rm -rf /var/lib/apt/lists/*
+
+# Image pipeline
+RUN apt update && apt install -y \
+    ros-humble-image-pipeline \
+    ros-humble-image-transport \
+    ros-humble-camera-info-manager \
+    && rm -rf /var/lib/apt/lists/*
+
